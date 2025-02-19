@@ -18,6 +18,16 @@ function get_servers_config(){
         shift
     done
 }
+# Telegram notification function
+send_telegram_message() {
+    local message="$1"
+    local token=7873758705:AAH31C1IYKd-M7kdHKeledEzqRfe65sEiZI
+    local chat_id=7568172607
+   
+    curl -s -X POST "https://api.telegram.org/bot$token/sendMessage" \
+         -d chat_id="$chat_id" \
+         -d text="$message" > /dev/null
+}
 
 echolog() {
     local d="$(date "+%Y-%m-%d %H:%M:%S")"
@@ -223,6 +233,7 @@ function passwall_best_ip(){
 function passwall2_best_ip(){
     if [ "x${passwall2_enabled}" == "x1" ] ;then
         echolog "设置passwall2 IP"
+        send_telegram_message "设置passwall2IP${bestip}"
         for ssrname in $passwall2_services
         do
             echo $ssrname
