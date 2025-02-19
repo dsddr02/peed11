@@ -233,7 +233,7 @@ function passwall_best_ip(){
 function passwall2_best_ip(){
     if [ "x${passwall2_enabled}" == "x1" ] ;then
         echolog "设置passwall2 IP"
-        send_telegram_message "设置passwall2IP${bestip}"
+        
         for ssrname in $passwall2_services
         do
             echo $ssrname
@@ -312,6 +312,7 @@ function restart_app(){
         uci commit passwall2
         /etc/init.d/passwall2 restart 2>/dev/null
         echolog "passwall2重启完成"
+        send_telegram_message "设置passwall2IP${bestip}"
     fi
 
     if [ "x${vssr_started}" == "x1" ] ;then
