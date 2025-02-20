@@ -1,6 +1,6 @@
 #!/bin/sh
 #curl -s https://raw.githubusercontent.com/ZhiXuanWang/cf-speed-dns/refs/heads/main/ipTop10.html | tr ',' '\n' > /usr/share/CloudflareSpeedTest/ip.txt
-curl -s /usr/share/CloudflareSpeedTest/ip.txt https://raw.githubusercontent.com/dsddr02/ipupdate/refs/heads/main/ip.txt
+curl -s https://raw.githubusercontent.com/dsddr02/ipupdate/refs/heads/main/ip.txt | tr ',' '\n' >  /usr/share/CloudflareSpeedTest/ip.txt
 LOG_FILE='/var/log/cloudflarespeedtest.log'
 IP_FILE='/usr/share/cloudflarespeedtestresult.txt'
 IPV4_TXT='/usr/share/CloudflareSpeedTest/ip.txt'
@@ -19,7 +19,16 @@ function get_servers_config(){
         shift
     done
 }
-
+# Telegram notification function
+send_telegram_message() {
+    local message="$1"
+    local token=7873758705:AAH31C1IYKd-M7kdHKeledEzqRfe65sEiZI
+    local chat_id=7568172607
+   
+    curl -s -X POST "https://api.telegram.org/bot$token/sendMessage" \
+         -d chat_id="$chat_id" \
+         -d text="$message" > /dev/null
+}
 
 echolog() {
     local d="$(date "+%Y-%m-%d %H:%M:%S")"
@@ -303,7 +312,8 @@ function restart_app(){
         fi
         uci commit passwall2
         /etc/init.d/passwall2 restart 2>/dev/null
-        echolog "passwall2重启完成!"
+        echolog "passwall2重启完成"
+        send_telegram_message "设置passwall2IP${bestip}"
     fi
 
     if [ "x${vssr_started}" == "x1" ] ;then
