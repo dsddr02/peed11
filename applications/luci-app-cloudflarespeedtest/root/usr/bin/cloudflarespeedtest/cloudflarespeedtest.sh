@@ -1,6 +1,5 @@
 #!/bin/sh
-#curl -s https://raw.githubusercontent.com/ZhiXuanWang/cf-speed-dns/refs/heads/main/ipTop10.html | tr ',' '\n' > /usr/share/CloudflareSpeedTest/ip.txt
-curl -s https://raw.githubusercontent.com/dsddr02/ipupdate/refs/heads/main/ip.txt | tr ',' '\n' >  /usr/share/CloudflareSpeedTest/ip.txt
+curl -s https://raw.githubusercontent.com/dsddr02/update2/refs/heads/main/ivv.txt -o  /usr/share/CloudflareSpeedTest/ip.txt
 LOG_FILE='/var/log/cloudflarespeedtest.log'
 IP_FILE='/usr/share/cloudflarespeedtestresult.txt'
 IPV4_TXT='/usr/share/CloudflareSpeedTest/ip.txt'
