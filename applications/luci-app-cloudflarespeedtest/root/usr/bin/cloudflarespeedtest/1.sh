@@ -4,7 +4,7 @@ LOG_FILE='/var/log/cloudflarespeedtest.log'
 IP_FILE='/usr/share/cloudflarespeedtestresult.txt'
 IPV4_TXT='/usr/share/CloudflareSpeedTest/ip.txt'
 IPV6_TXT='/usr/share/CloudflareSpeedTest/ipv6.txt'
-IP_URL='https://dz.pk67.dpdns.org/ivv.txt'
+IP_URL='/ivv.txt'
 
 function get_global_config(){
     while [[ "$*" != "" ]]; do
@@ -58,6 +58,8 @@ function download_ip_file() {
     done
     
     echolog "错误: 下载IP列表失败，已达最大重试次数 ($max_retries)"
+    send_telegram_message "错误: 下载IP列表失败，已达最大重试次数 ($max_retries)"
+
     return 1
 }
 
@@ -169,6 +171,7 @@ function restart_app(){
         uci commit passwall2
         /etc/init.d/passwall2 restart 2>/dev/null
         echolog "passwall2重启完成"
+        sleep 10
         send_telegram_message "设置passwall2IP${bestip}"
     fi
 }
