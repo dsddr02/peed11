@@ -4,7 +4,7 @@ LOG_FILE='/var/log/cloudflarespeedtest.log'
 IP_FILE='/usr/share/cloudflarespeedtestresult.txt'
 IPV4_TXT='/usr/share/CloudflareSpeedTest/ip.txt'
 IPV6_TXT='/usr/share/CloudflareSpeedTest/ipv6.txt'
-IP_URL='https://dz.pk7.dpdns.org/ivv.txt?token=zf004'
+IP_URL='https://dz.pk67.dpdns.org/ivv.txt?token=zf004'
 
 function get_global_config(){
     while [[ "$*" != "" ]]; do
@@ -186,7 +186,7 @@ function restart_app(){
         echolog "passwall2重启完成"
         sleep 4
         # Send Telegram message with the new IP(s).  Join with commas for brevity
-        new_ips=$(uci show passwall2 | grep address= | awk -F'[=]' '{print $2}' | tr '\n' ',')
+        # new_ips=$(uci show passwall2 | grep address= | awk -F'[=]' '{print $2}' | tr '\n' ',')
         send_telegram_message "设置passwall2IP" 
     fi
 }
